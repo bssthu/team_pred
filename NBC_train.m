@@ -32,5 +32,5 @@ for i = 1:num_class
         I = (train_data(:, 1) == i) .* (train_data(:, 2) == j);
         action_count(i, j) = sum(I);
     end
-    theta(i, :) = theta(i, :) / sum(theta(i, :));
+    theta(i, :) = action_count(i, :) / sum(action_count(i, :));
 end

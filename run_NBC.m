@@ -10,5 +10,6 @@ function run_NBC
 
 load('soccerData.mat');
 
-NBC_train(trainData, trainLabels);
-NBC_test(testData, testLabels);
+theta = NBC_train(trainData, trainLabels);
+correct_rate = NBC_test(testData, testLabels, theta);
+disp(correct_rate);
