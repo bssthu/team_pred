@@ -14,19 +14,29 @@ data_by_act = rawData(:, [1, 4]);  % 第1列为比赛ID, 第2列为动作
 % [实际比赛ID * 2 - 主客队] 作为match_id
 data_by_act(:, 1) = rawData(:, 1) * 2 - rawData(:, 2);
 % 扩展动作
-data_by_act(logical(rawData(:, 11)), 2) = 10;
-data_by_act(logical(rawData(:, 12)), 2) = 11;
-data_by_act(logical(rawData(:, 13)), 2) = 12;
-data_by_act(logical(rawData(:, 14)), 2) = 13;
-data_by_act(logical(rawData(:, 15)), 2) = 14;
-data_by_act(logical(rawData(:, 16)), 2) = 15;
+I_pass = rawData(:, 4) == 1;
+data_by_act(:, 2) = data_by_act(:, 2) + 5;
+data_by_act(I_pass, 2) = 1;
+data_by_act(logical(rawData(:, 11)), 2) = 4;
+data_by_act(logical(rawData(:, 12)), 2) = 5;
+data_by_act(logical(rawData(:, 13)), 2) = 3;
+data_by_act(logical(rawData(:, 14)), 2) = 2;
+data_by_act(logical(rawData(:, 16)), 2) = 6;
+data_by_act(logical(rawData(:, 15)), 2) = 15;
+% pass: 1-6
 % 成功失败
 succeed = rawData(:, 6) == 1;
 data_by_act(:, 2) = data_by_act(:, 2) * 2 - succeed;
+% pass: 1 -- 12
 % 时间
-data_by_act(:, 2) = data_by_act(:, 2) + 2;
-I_pass = rawData(:, 4) == 1;
-data_by_act(I_pass, 2) = (data_by_act(I_pass, 2) - 2) * 2 - (rawData(I_pass, 5) < 1200);
+data_by_act(:, 2) = data_by_act(:, 2) + 12;
+data_by_act(I_pass, 2) = (data_by_act(I_pass, 2) - 12) * 2 - (rawData(I_pass, 5) < 1200);
+% pass: 1 -- 24
+% 坐标
+data_by_act(:, 2) = data_by_act(:, 2) + 72;
+data_by_act(I_pass, 2) = (data_by_act(I_pass, 2) - 72) * 4 ...
+        - (rawData(I_pass, 7) < 25) - (rawData(I_pass, 7) < 50) - (rawData(I_pass, 7) < 75);
+% pass: 1 -- 96
 
 % 按比赛场次划分
 num_action = max(data_by_act(:, 2));
