@@ -17,8 +17,9 @@ theta_log = log(theta + 0.0000001);
 
 %% Estimate
 for i = 1:num_match
-    I = test_data(:, 1) == i;
-    p_match(i, :) = sum(theta_log(:, test_data(I, 2)), 2)';
+    for j = 1:num_class
+        p_match(i, j) = sum(theta_log(j, :) .* test_data(i, :));
+    end
 end
 
 %% Test

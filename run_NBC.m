@@ -17,13 +17,13 @@ testLabels;
 
 %% Preprocess
 num_match_half = 190;
-[train_data, train_label] = NBC_data_preprocess(trainData, trainLabels);
+train_data = NBC_data_preprocess(trainData);
 % [(比赛ID - 190) * 2 - 主客队] 作为下半场的 match_id
 testData(:, 1) = testData(:, 1) - num_match_half;
-[test_data, ~] = NBC_data_preprocess(testData, testLabels);
+test_data = NBC_data_preprocess(testData);
 
 %% Run
-theta = NBC_train(train_data, train_label);
+theta = NBC_train(train_data, trainLabels(:, 3));
 correct_rate_train = NBC_test(train_data, trainLabels(:, 3), theta);
 correct_rate_test = NBC_test(test_data, testLabels(:, 3), theta);
 disp(['NBC train: ' num2str(correct_rate_train * 100) '%']);
