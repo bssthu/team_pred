@@ -10,7 +10,7 @@ function theta = NBC_train(train_data, train_labels)
 
 %% Init
 num_class = 20;
-num_action = 15;
+num_action = size(train_data, 2);
 
 theta = zeros(num_class, num_action);
 action_count = zeros(num_class, num_action);
