@@ -20,7 +20,11 @@ data_by_act(logical(rawData(:, 13)), 2) = 12;
 data_by_act(logical(rawData(:, 14)), 2) = 13;
 data_by_act(logical(rawData(:, 15)), 2) = 14;
 data_by_act(logical(rawData(:, 16)), 2) = 15;
+% 成功失败
+succeed = rawData(:, 6) == 1;
+data_by_act(:, 2) = data_by_act(:, 2) * 2 - succeed;
 
+% 按比赛场次划分
 num_action = max(data_by_act(:, 2));
 data = zeros(num_match, num_action); % 每场比赛（分主客场）每个动作出现次数
 for i = 1:num_match
