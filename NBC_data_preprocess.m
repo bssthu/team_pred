@@ -8,7 +8,7 @@
 
 function data = NBC_data_preprocess(rawData, labels)
 
-N_label = length(labels);
+N_label = size(labels, 1);
 
 data = rawData(:, [1, 1, 4]);  % 第1列为比赛ID, 第2列为球队ID, 第3列为动作
 
