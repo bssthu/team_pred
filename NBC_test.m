@@ -19,14 +19,14 @@ N_label = size(testLabels, 1);
 p_match = zeros(num_match, num_class);
 
 %% Preprocess
-test_data = testData(:, [1, 4]);  % 第一列为比赛ID，第二列为动作
+test_data = NBC_data_preprocess(testData, testLabels);
 test_data(:, 1) = (testData(:, 1) - num_match_half) * 2 - testData(:, 2);
 
 %% Estimate
 theta_log = log(theta);
 for i = 1:N_data
     match_id = test_data(i, 1);
-    action = test_data(i, 2);
+    action = test_data(i, 3);
     for j = 1:num_class
         p_match(match_id, j) = p_match(match_id, j) + theta_log(j, action);
     end
