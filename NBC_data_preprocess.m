@@ -6,15 +6,19 @@
 % Description       : 
 % 
 
-function data = NBC_data_preprocess(rawData, labels)
+function [data, labels] = NBC_data_preprocess(rawData, rawLabels)
 
-N_label = size(labels, 1);
+N_label = size(rawLabels, 1);
+N_data = size(rawData, 1);
 
-data = rawData(:, [1, 1, 4]);  % 第1列为比赛ID, 第2列为球队ID, 第3列为动作
+data = rawData(:, [1, 4]);  % 第1列为比赛ID, 第2列为动作
+% [实际比赛ID * 2 - 主客队] 作为match_id
+data(:, 1) = rawData(:, 1) * 2 - rawData(:, 2);
+labels = zeros(N_data, 1);  % 球队ID, 每行对应一次动作
 
 for i = 1:N_label
-    I = (rawData(:, 1) == labels(i, 1)) ...
-            .* (rawData(:, 2) == labels(i, 2));
+    I = (rawData(:, 1) == rawLabels(i, 1)) ...
+            .* (rawData(:, 2) == rawLabels(i, 2));
     I = logical(I);
-    data(I, 2) = labels(i, 3);
+    labels(I) = rawLabels(i, 3);
 end
