@@ -23,6 +23,10 @@ data_by_act(logical(rawData(:, 16)), 2) = 15;
 % 成功失败
 succeed = rawData(:, 6) == 1;
 data_by_act(:, 2) = data_by_act(:, 2) * 2 - succeed;
+% 时间
+data_by_act(:, 2) = data_by_act(:, 2) + 2;
+I_pass = rawData(:, 4) == 1;
+data_by_act(I_pass, 2) = (data_by_act(I_pass, 2) - 2) * 2 - (rawData(I_pass, 5) < 1200);
 
 % 按比赛场次划分
 num_action = max(data_by_act(:, 2));
