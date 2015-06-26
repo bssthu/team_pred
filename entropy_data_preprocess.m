@@ -81,5 +81,5 @@ function [i_chunk, i_x, i_y] = get_coord(x, y, l, w) % 由X,Y坐标判断点在哪一格
     y_a_chunk = y_max / w;
     i_x = max(1, ceil(x / x_a_chunk));
     i_y = max(1, ceil(y / y_a_chunk));
-    i_chunk = i_x * w + i_y;
+    i_chunk = (i_x - 1) * w + i_y;
 end
