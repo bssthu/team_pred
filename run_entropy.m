@@ -16,7 +16,7 @@ testData;
 testLabels;
 
 T = 5;
-[l, w] = deal(10, 8);
+[l, w] = deal(8, 10);
 num_match_half = 190;
 
 %% Preprocess
@@ -36,3 +36,14 @@ test_entropy = entropy_get_entropy(test_data, test_match, l, w);
 correct_rate_test = entropy_test_nearest(train_entropy, trainLabels(:, 3), test_entropy, testLabels(:, 3));
 %disp(['entropy train: ' num2str(correct_rate_train * 100) '%']);
 disp(['entropy test: ' num2str(correct_rate_test * 100) '%']);
+
+%% Draw
+train_entropy_by_team = entropy_get_entropy_by_team(...
+        train_data, train_match, trainLabels(:, 3), l, w);
+figure(1);
+clf(1);
+hold on;
+img = reshape(train_entropy_by_team(1, :), l, w);
+image(img * 25);
+colorbar;
+hold off;
