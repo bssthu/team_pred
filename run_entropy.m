@@ -19,10 +19,10 @@ testLabels;
 T = 5;
 [l, w] = deal(10, 8);
 num_match_half = 190;
-train_data = entropy_data_preprocess(trainData, T, l, w);
+[train_data, train_match] = entropy_data_preprocess(trainData, T, l, w);
 % [(比赛ID - 190) * 2 - 主客队] 作为下半场的 match_id
 testData(:, 1) = testData(:, 1) - num_match_half;
-test_data = entropy_data_preprocess(testData, T, l, w);
+[test_data, test_match] = entropy_data_preprocess(testData, T, l, w);
 
 %% Run
 correct_rate_train = 0;

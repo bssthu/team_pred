@@ -6,12 +6,12 @@
 % Description       : 
 % 
 
-function data = entropy_data_preprocess(rawData, T, l, w)
+function [data, label] = entropy_data_preprocess(rawData, T, l, w)
     num_match = 380;
     data = [];
+    label = [];
     
     % [实际比赛ID * 2 - 主客队] 作为 match_id_t2
-    match_id_t2 = rawData(:, 1) * 2 - rawData(:, 2);
     
     % 遍历每场比赛
     for i = 1 : num_match / 2
@@ -20,9 +20,11 @@ function data = entropy_data_preprocess(rawData, T, l, w)
         % 主队
         segments = get_play_segments(raw_data, 1, T, l, w);
         data = [data; segments];
+        label = [label; ones(size(segments, 1), 1) * (i * 2 - 1)];
         % 客队
         segments = get_play_segments(raw_data, 0, T, l, w);
         data = [data; segments];
+        label = [label; ones(size(segments, 1), 1) * (i * 2)];
     end
 end
 
