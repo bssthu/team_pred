@@ -32,7 +32,7 @@ train_entropy = entropy_get_entropy(train_data, train_match, l, w);
 test_entropy = entropy_get_entropy(test_data, test_match, l, w);
 
 %% Run
-correct_rate_train = 0;
-correct_rate_test = 0;
-disp(['entropy train: ' num2str(correct_rate_train * 100) '%']);
+%correct_rate_train = 0;
+correct_rate_test = entropy_test_nearest(train_entropy, trainLabels(:, 3), test_entropy, testLabels(:, 3));
+%disp(['entropy train: ' num2str(correct_rate_train * 100) '%']);
 disp(['entropy test: ' num2str(correct_rate_test * 100) '%']);

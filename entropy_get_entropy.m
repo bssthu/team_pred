@@ -9,12 +9,12 @@
 function entropy = entropy_get_entropy(train_data, train_match, l, w)
 
 %% Init
-num_class = 20;
+num_match = 380;
 
-entropy = zeros(num_class, l * w);
+entropy = zeros(num_match, l * w);
 
 %% Entropy
-for i = 1:num_class
+for i = 1:num_match
     I = (train_match == i);
     train_data_team = train_data(I, :);
     for j = 1 : w*l
