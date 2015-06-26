@@ -8,6 +8,7 @@
 
 function data = entropy_data_preprocess(rawData, T, l, w)
     num_match = 380;
+    data = [];
     
     % [实际比赛ID * 2 - 主客队] 作为 match_id_t2
     match_id_t2 = rawData(:, 1) * 2 - rawData(:, 2);
@@ -17,28 +18,55 @@ function data = entropy_data_preprocess(rawData, T, l, w)
         I = rawData(:, 1) == i;
         raw_data = rawData(I, :);
         % 主队
-        get_play_segments(raw_data, 1, T, l, w);
+        segments = get_play_segments(raw_data, 1, T, l, w);
+        data = [data; segments];
         % 客队
-        get_play_segments(raw_data, 1, T, l, w);
+        segments = get_play_segments(raw_data, 0, T, l, w);
+        data = [data; segments];
     end
-    
 end
 
 
-function get_play_segments(raw_data, home_or_away, T, l, w)
-    posession = [];
+function segments = get_play_segments(raw_data, home_or_away, T, l, w)
+    segments = [];  % M-by-T matrix
+    possession = [];
     % 遍历每个动作
     for j = 1:size(raw_data, 1)
         % 对方动作成功，或射门，或犯规，结束这一轮
-        if ((raw_data(j, 2) ~= home_or_away) && (raw_data(j, 6) == 1)) ...
-                || ((raw_data(j, 2) == home_or_away) && (raw_data(j, 4) == 4 || raw_data(j, 4) == 9))
+        if size(possession, 1) > 0 && ...
+                (((raw_data(j, 2) ~= home_or_away) && (raw_data(j, 6) == 1)) ...
+                || ((raw_data(j, 2) == home_or_away) && (raw_data(j, 4) == 4 || raw_data(j, 4) == 9)))
             % 处理
-            num_act =  size(posession, 1);
+            T1 = floor(possession(end, 5) - possession(1, 5));  % length of a possession, in second
+            if T1+1 >= T
+                N =  size(possession, 1);   % total number of play-segments for a possession
+                a = zeros(T1+1, 1);   % the possession string
+                t0 = possession(1, 5);
+                i_of_p = 1;
+                for k = 1:T1+1
+                    t = t0 + (k - 1);
+                    while possession(i_of_p + 1, 5) < t
+                        i_of_p = i_of_p + 1;
+                    end
+                    t_1 = possession(i_of_p, 5);
+                    x_1 = possession(i_of_p, 7);
+                    y_1 = possession(i_of_p, 8);
+                    t_2 = possession(i_of_p + 1, 5);
+                    x_2 = possession(i_of_p + 1, 7);
+                    y_2 = possession(i_of_p + 1, 8);
+                    x = (x_2 - x_1) / (t_2 - t_1) * (t - t_1) + x_1;
+                    y = (y_2 - y_1) / (t_2 - t_1) * (t - t_1) + y_1;
+                    a(k) = get_coord(x, y, l, w);
+                end
+                for k = 1:size(a) - T + 1
+                    segments(end+1, :) = a(k:k+T-1);
+                end
+            end
             % clear
-            posession = [];
+            possession = [];
         % 动作
         elseif (raw_data(j, 2) == home_or_away)
-            posession(end + 1, :) = raw_data(j, :);
+            possession(end + 1, :) = raw_data(j, :);
         end
     end
 end
