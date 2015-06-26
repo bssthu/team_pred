@@ -6,7 +6,7 @@
 % Description       : 文献[1]的方法
 % 
 
-function run_entropy
+%function run_entropy
 
 %% Load
 load('soccerData.mat');
@@ -23,6 +23,10 @@ num_match_half = 190;
 % [(比赛ID - 190) * 2 - 主客队] 作为下半场的 match_id
 testData(:, 1) = testData(:, 1) - num_match_half;
 [test_data, test_match] = entropy_data_preprocess(testData, T, l, w);
+
+%% Get Entropy
+train_entropy = entropy_get_entropy(train_data, train_match, l, w);
+test_entropy = entropy_get_entropy(test_data, test_match, l, w);
 
 %% Run
 correct_rate_train = 0;
