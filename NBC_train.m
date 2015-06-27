@@ -18,6 +18,6 @@ action_count = zeros(num_class, num_action);
 %% Train
 for i = 1:num_class
     I = (train_labels == i);
-    action_count(i, :) = sum(train_data(I, :), 1);
+    action_count(i, :) = sum(train_data(I, :), 1) + 0.1;
     theta(i, :) = action_count(i, :) / sum(action_count(i, :));
 end

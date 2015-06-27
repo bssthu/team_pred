@@ -11,10 +11,9 @@ function [correct_rate, est_label] = NBC_test(test_data, test_labels, theta)
 %% Init
 num_class = 20;
 num_match = 380;
-eps = 0.0000001;
 
 p_match = zeros(num_match, num_class);
-theta_log = log(theta + eps);
+theta_log = log(theta);
 
 %% Estimate
 for i = 1:num_match
