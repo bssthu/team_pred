@@ -31,31 +31,32 @@ end
 
 function segments = get_play_segments(raw_data, home_or_away, T, l, w)
     segments = [];  % M-by-T matrix
-    possession = [];
+    possession = [];    % 列的含义, 1:时刻, 2:x坐标, 3:y坐标
     % 遍历每个动作
-    for j = 1:size(raw_data, 1)
+    num_action = size(raw_data, 1);
+    for j = 1:num_action
         % 对方动作成功，或射门，或犯规，结束这一轮
         if size(possession, 1) > 0 && ...
                 (((raw_data(j, 2) ~= home_or_away) && (raw_data(j, 6) == 1)) ...
                 || ((raw_data(j, 2) == home_or_away) && (raw_data(j, 4) == 4 || raw_data(j, 4) == 9)))
             % 处理
-            T1 = floor(possession(end, 5) - possession(1, 5));  % length of a possession, in second
+            T1 = floor(possession(end, 1) - possession(1, 1));  % length of a possession, in second
             if T1+1 >= T
                 N =  size(possession, 1);   % total number of play-segments for a possession
                 a = zeros(T1+1, 1);   % the possession string
-                t0 = possession(1, 5);
+                t0 = possession(1, 1);
                 i_of_p = 1;
                 for k = 1:T1+1
                     t = t0 + (k - 1);
-                    while possession(i_of_p + 1, 5) < t
+                    while possession(i_of_p + 1, 1) < t
                         i_of_p = i_of_p + 1;
                     end
-                    t_1 = possession(i_of_p, 5);
-                    x_1 = possession(i_of_p, 7);
-                    y_1 = possession(i_of_p, 8);
-                    t_2 = possession(i_of_p + 1, 5);
-                    x_2 = possession(i_of_p + 1, 7);
-                    y_2 = possession(i_of_p + 1, 8);
+                    t_1 = possession(i_of_p, 1);
+                    x_1 = possession(i_of_p, 2);
+                    y_1 = possession(i_of_p, 3);
+                    t_2 = possession(i_of_p + 1, 1);
+                    x_2 = possession(i_of_p + 1, 2);
+                    y_2 = possession(i_of_p + 1, 3);
                     x = (x_2 - x_1) / (t_2 - t_1) * (t - t_1) + x_1;
                     y = (y_2 - y_1) / (t_2 - t_1) * (t - t_1) + y_1;
                     a(k) = get_coord(x, y, l, w);
@@ -67,8 +68,8 @@ function segments = get_play_segments(raw_data, home_or_away, T, l, w)
             % clear
             possession = [];
         % 动作
-        elseif (raw_data(j, 2) == home_or_away)
-            possession(end + 1, :) = raw_data(j, :);
+        elseif raw_data(j, 2) == home_or_away
+            possession(end + 1, :) = raw_data(j, [5,7,8]);
         end
     end
 end
