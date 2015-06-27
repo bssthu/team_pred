@@ -6,7 +6,7 @@
 % Description       : 
 % 
 
-function correct_rate = NBC_test(test_data, test_labels, theta)
+function [correct_rate, est_label] = NBC_test(test_data, test_labels, theta)
 
 %% Init
 num_class = 20;
