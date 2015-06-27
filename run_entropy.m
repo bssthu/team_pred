@@ -19,10 +19,11 @@ T = 5;
 [l, w] = deal(8, 10);
 num_match = 380;
 
-%% Preprocess
-[train_data, train_match] = entropy_data_preprocess(trainData, T, l, w);
 % [(比赛ID - 190) * 2 - 主客队] 作为下半场的 match_id
 testData(:, 1) = testData(:, 1) - num_match / 2;
+
+%% Preprocess
+[train_data, train_match] = entropy_data_preprocess(trainData, T, l, w);
 [test_data, test_match] = entropy_data_preprocess(testData, T, l, w);
 save('./temp_data/entropy_preprocess', 'train_data', 'train_match', 'test_data', 'test_match');
 
@@ -31,7 +32,7 @@ load('./temp_data/entropy_preprocess.mat');
 train_entropy = entropy_get_entropy(train_data, train_match, l, w);
 test_entropy = entropy_get_entropy(test_data, test_match, l, w);
 
-%% Run
+%% Test
 [~, train_test_entropy_score] = pca([train_entropy; test_entropy]);
 train_entropy_score = train_test_entropy_score(1:num_match, 1:20);
 test_entropy_score = train_test_entropy_score(num_match+1:end, 1:20);
