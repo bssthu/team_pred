@@ -6,10 +6,12 @@
 % Description       : 
 % 
 
-function y_est = softmax_test(data, theta)
+function [correct_rate, est_label] = softmax_test(test_data, test_labels, theta)
 
-[m, ~] = size(data);
-data = [data, ones(m, 1)];
+[m, ~] = size(test_data);
+test_data = [test_data, ones(m, 1)];
 
-[~, y_est] = max(theta * data');
-y_est = y_est';
+[~, est_label] = max(theta * test_data');
+est_label = est_label';
+
+correct_rate = sum(est_label == test_labels) / length(test_labels);
