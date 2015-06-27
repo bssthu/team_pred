@@ -16,10 +16,10 @@ testData;
 testLabels;
 
 %% Preprocess
-num_match_half = 190;
+num_match = 380;
 train_data = NBC_data_preprocess(trainData);
 % [(比赛ID - 190) * 2 - 主客队] 作为下半场的 match_id
-testData(:, 1) = testData(:, 1) - num_match_half;
+testData(:, 1) = testData(:, 1) - num_match / 2;
 test_data = NBC_data_preprocess(testData);
 
 %% Run

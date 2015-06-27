@@ -6,7 +6,7 @@
 % Description       : 
 % 
 
-%function entropy_run_draw_avgentropy_by_T()
+function entropy_run_draw_avgentropy_by_T()
 
 %% Init
 load('soccerData.mat');
