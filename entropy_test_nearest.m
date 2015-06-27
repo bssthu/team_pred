@@ -1,4 +1,4 @@
-% -*- coding: utf-8 -*-
+% -*- coding: gbk -*-
 % Module            : entropy_test_nearest.m
 % Author            : bss
 % Project           : 模式识别大作业 足球赛

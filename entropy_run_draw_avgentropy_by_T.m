@@ -1,4 +1,4 @@
-% -*- coding: utf-8 -*-
+% -*- coding: gbk -*-
 % Module            : entropy_run_draw_avgentropy_by_T.m
 % Author            : bss
 % Project           : 模式识别大作业 足球赛
