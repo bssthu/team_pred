@@ -16,5 +16,5 @@ for i = 1:num_class
     img(i, :) = histc(est_label(test_label == i), 1:num_class); % 实际的第i队被分类成哪些队
 end
 
-axis([0, num_class, 0, num_class]);
+axis([0.5, num_class + 0.5, 0.5, num_class + 0.5]);
 image(img * 3); % 图像的第i行(从下往上数)表示实际的第i队

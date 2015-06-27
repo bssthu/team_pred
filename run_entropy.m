@@ -50,12 +50,15 @@ draw_est(testLabels(:, 3), est_label);
 title('文献[1]的方法');
 hold off;
 
+team = 1;
 train_entropy_by_team = entropy_get_entropy_by_team(...
         train_data, train_match, trainLabels(:, 3), l, w);
 figure(2);
 clf(2);
 hold on;
-img = reshape(train_entropy_by_team(1, :), l, w);
+img = reshape(train_entropy_by_team(team, :), w, l);
 image(img * 25);
-colorbar;
+axis([0.5, l + 0.5, 0.5, w + 0.5]);
+%colorbar;
+title(['Entropy of team ' num2str(team)]);
 hold off;
