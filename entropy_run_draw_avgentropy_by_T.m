@@ -48,5 +48,8 @@ h = zeros(num_class, 1);
 for i = 1:num_class
     h(i) = plot(T_range, mean_entropy(1:length(T_range), i));
 end
+xlim([0, 40]);
+xlabel('Length of Play-Segment Window, T (seconds)');
+ylabel('Mean Entropy');
 hl = legend(h);
 hold off;
