@@ -33,7 +33,7 @@ train_entropy = entropy_get_entropy(train_data, train_match, l, w);
 test_entropy = entropy_get_entropy(test_data, test_match, l, w);
 
 %% Test
-[~, train_test_entropy_score] = pca([train_entropy; test_entropy]);
+[~, train_test_entropy_score] = entropy_pca([train_entropy; test_entropy]);
 train_entropy_score = train_test_entropy_score(1:num_match, 1:20);
 test_entropy_score = train_test_entropy_score(num_match+1:end, 1:20);
 %correct_rate_train = 0;
