@@ -30,7 +30,8 @@ end
 
 
 function segments = get_play_segments(raw_data, home_or_away, T, l, w)
-    segments = [];  % M-by-T matrix
+    segments = zeros(5000, T); % M-by-T matrix
+    num_segments = 0;
     possession = [];    % 列的含义, 1:时刻, 2:x坐标, 3:y坐标
     % 遍历每个动作
     num_action = size(raw_data, 1);
@@ -62,7 +63,8 @@ function segments = get_play_segments(raw_data, home_or_away, T, l, w)
                     a(k) = get_coord(x, y, l, w);
                 end
                 for k = 1:size(a) - T + 1
-                    segments(end+1, :) = a(k:k+T-1);
+                    num_segments = num_segments + 1;
+                    segments(num_segments, :) = a(k:k+T-1);
                 end
             end
             % clear
@@ -72,6 +74,7 @@ function segments = get_play_segments(raw_data, home_or_away, T, l, w)
             possession(end + 1, :) = raw_data(j, [5,7,8]);
         end
     end
+    segments = segments(1:num_segments, :);
 end
 
 
