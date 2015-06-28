@@ -6,7 +6,7 @@
 % Description       : 
 % 
 
-function data = NBC_data_preprocess(rawData)
+function data = NBC_data_preprocess(rawData, l, w)
 
 num_match = 380;
 
@@ -30,13 +30,20 @@ data_by_act(:, 2) = data_by_act(:, 2) * 2 - succeed;
 % pass: 1 -- 12
 % 时间
 data_by_act(:, 2) = data_by_act(:, 2) + 12;
-data_by_act(I_pass, 2) = (data_by_act(I_pass, 2) - 12) * 2 - (rawData(I_pass, 5) < 1200);
+data_by_act(I_pass, 2) = (data_by_act(I_pass, 2) - 12) * 2 - (rawData(I_pass, 5) < 2700);
 % pass: 1 -- 24
 % 坐标
-data_by_act(:, 2) = data_by_act(:, 2) + 72;
-data_by_act(I_pass, 2) = (data_by_act(I_pass, 2) - 72) * 4 ...
-        - (rawData(I_pass, 7) < 25) - (rawData(I_pass, 7) < 50) - (rawData(I_pass, 7) < 75);
-% pass: 1 -- 96
+data_by_act(:, 2) = data_by_act(:, 2) + 24 * (l * w - 1);
+data_by_act(I_pass, 2) = data_by_act(I_pass, 2) - 24 * (l * w - 1);
+data_by_act(I_pass, 2) = data_by_act(I_pass, 2) * l;
+for i = 1:l-1
+    data_by_act(I_pass, 2) = data_by_act(I_pass, 2) - (rawData(I_pass, 7) < (100 / l * i));
+end
+data_by_act(I_pass, 2) = data_by_act(I_pass, 2) * w;
+for i = 1:w-1
+    data_by_act(I_pass, 2) = data_by_act(I_pass, 2) - (rawData(I_pass, 8) < (100 / w * i));
+end
+% pass: 1 -- 24*(w*l-1)
 
 % 按比赛场次划分
 num_action = max(data_by_act(:, 2));

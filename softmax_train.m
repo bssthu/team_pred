@@ -33,7 +33,7 @@ function theta = softmax_train(data, label, alpha, alpha_end, maxIter)
         end
         J = J_new;
         theta = theta_new;
-        if mod(i, 1000) == 0
+        if mod(i, 100) == 0
             disp(['J = ' num2str(J)]);
         end
     end

@@ -15,12 +15,15 @@ trainLabels;
 testData;
 testLabels;
 
+l = 8;
+w = 10;
+
 %% Preprocess
-num_match_half = 190;
-train_data = NBC_data_preprocess(trainData);
+num_match = 380;
+train_data = NBC_data_preprocess(trainData, l, w);
 % [(比赛ID - 190) * 2 - 主客队] 作为下半场的 match_id
-testData(:, 1) = testData(:, 1) - num_match_half;
-test_data = NBC_data_preprocess(testData);
+testData(:, 1) = testData(:, 1) - num_match / 2;
+test_data = NBC_data_preprocess(testData, l, w);
 
 %% Run
 theta = NBC_train(train_data, trainLabels(:, 3));
